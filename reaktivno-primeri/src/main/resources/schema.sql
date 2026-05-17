@@ -1,0 +1,23 @@
+CREATE TABLE users (
+id SERIAL PRIMARY KEY,
+username VARCHAR(255) NOT NULL,
+email VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE messages (
+id SERIAL PRIMARY KEY,
+content TEXT NOT NULL,
+senderid BIGINT NOT NULL,
+receiverid BIGINT NOT NULL,
+timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT fk_sender FOREIGN KEY (senderid) REFERENCES users(id),
+CONSTRAINT fk_receiver FOREIGN KEY (receiverid) REFERENCES users(id)
+);
+
+CREATE TABLE friends (
+user1id BIGINT NOT NULL,
+user2id BIGINT NOT NULL,
+PRIMARY KEY (user1id, user2id),
+CONSTRAINT fk_user1 FOREIGN KEY (user1id) REFERENCES users(id),
+CONSTRAINT fk_user2 FOREIGN KEY (user2id) REFERENCES users(id)
+);
